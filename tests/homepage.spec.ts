@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
+import { CartPage } from '../pages/CartPage';
 
 test.describe('Sauce Demo — Homepage', () => {
   test.beforeEach(async ({ page }) => {
@@ -32,6 +33,12 @@ test.describe('Sauce Demo — Homepage', () => {
   });
 
   test('shows an empty cart indicator by default', async ({ page }) => {
+    const homepage = new HomePage(page);
+    const cart = new CartPage(page);
+    await homepage.goto();
+    await expect(homepage.cartLink).toBeVisible();
+    await expect(homepage.cartLink).toHaveText(/My Cart \(0\)/i);
+    await homepage.cartLink.click();
     await expect(page.getByText(/your cart is empty/i)).toBeVisible();
   });
 

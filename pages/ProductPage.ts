@@ -9,9 +9,8 @@ export class ProductPage {
   constructor(page: Page) {
     this.page = page;
     this.title = page.getByRole('heading', { level: 1 });
-    this.price = page.getByText(/£\d+\.\d{2}/).first();
-    // Shopify themes usually label this "Add to cart" / "Add to Cart".
-    this.addToCartButton = page.getByRole('button', { name: /add to cart/i });
+    this.price = page.getByRole('heading', { name: '£' })
+    this.addToCartButton = page.getByRole('button', { name: 'Add to Cart' });
   }
 
   async goto(handle: string) {
