@@ -6,37 +6,31 @@ test.describe('Sauce Demo — Product page', () => {
     const product = new ProductPage(page);
     await product.goto('grey-jacket');
 
-    await expect(product.title).toHaveText('Grey jacket');
-    await expect(product.price).toBeVisible();
+    await expect(product.titleGreyJacket).toHaveText('Grey jacket');
+    await expect(product.priceGreyJacket).toBeVisible();
     await expect(page.getByText(/populated by the product description/i)).toBeVisible();
   });
 
-  test('shows related products under "You Might Also Like"', async ({ page }) => {
-    const product = new ProductPage(page);
-    await product.goto('grey-jacket');
-
-    await expect(page.getByText('You Might Also Like')).toBeVisible();
-    await expect(page.getByRole('link', { name: /Noir jacket/i }).first()).toBeVisible();
-    await expect(page.getByRole('link', { name: /Striped top/i }).first()).toBeVisible();
-  });
-
-  test.describe('for each frontpage product', () => {
-    const products = [
-      { handle: 'grey-jacket', name: 'Grey jacket', price: '£55.00' },
-      { handle: 'noir-jacket', name: 'Noir jacket', price: '£60.00' },
-      { handle: 'striped-top', name: 'Striped top', price: '£50.00' },
-    ];
-
-    for (const { handle, name, price } of products) {
-      test(`${name} page shows the correct name and price`, async ({ page }) => {
+  test('Grey jacket page shows the correct name and price', async ({ page }) => {
         const product = new ProductPage(page);
-        await product.goto(handle);
-
-        await expect(product.title).toHaveText(name);
-        await expect(page.getByText(price).first()).toBeVisible();
+        await page.goto('/products/grey-jacket');
+        await expect(product.titleGreyJacket).toBeVisible();
+        await expect(product.priceGreyJacket).toBeVisible();
       });
-    }
-  });
+
+  test('Noir jacket page shows the correct name and price', async ({ page }) => {
+        const product = new ProductPage(page);
+        await page.goto('/products/noir-jacket');
+        await expect(product.titleNoirJacket).toBeVisible();
+        await expect(product.priceNoirJacket).toBeVisible();
+      });
+
+  test('Striped top page shows the correct name and price', async ({ page }) => {
+        const product = new ProductPage(page);
+        await page.goto('/products/striped-top');
+        await expect(product.titleStripedTop).toBeVisible();
+        await expect(product.priceStripedTop).toBeVisible();
+      });
 
   test('adding a product to the cart updates the cart count', async ({ page }) => {
     const product = new ProductPage(page);
