@@ -8,14 +8,14 @@ test.describe('Sauce Demo — Homepage', () => {
     await home.goto();
   });
 
-  test('loads with the correct title and heading', async ({ page }) => {
+  test('loads with the correct title and heading', {tag: '@smoke'} async ({ page }) => {
     await expect(page).toHaveTitle(/Sauce Demo/i);
     const home = new HomePage(page);
     await expect(home.heading).toBeVisible();
   });
 
   test('displays the three frontpage products with prices', async ({ page }) => {
-    await expect(page.getByText('Grey jacket').first()).toBeVisible();
+    await expect(page.getByText('Grey jacket').first()).toBeVisible({timeout:3000});
     await expect(page.getByText('Noir jacket').first()).toBeVisible();
     await expect(page.getByText('Striped top').first()).toBeVisible();
 
